@@ -26,6 +26,22 @@ class Tree {
     return node;
   }
 
+  insert(data, currentNode = this.root) {
+    if (currentNode === null) {
+        currentNode = new Node(data);
+        return currentNode;
+    }
+
+    if (data < currentNode.data) {
+        currentNode.left = this.insert(data, currentNode.left);
+    }
+    if (data > currentNode.data) {
+        currentNode.right = this.insert(data, currentNode.right);
+    }
+    return currentNode;
+  }
+
+
   prettyPrint(node, prefix = "", isLeft = true) {
     if (node === null) {
       return;
