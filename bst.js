@@ -26,28 +26,71 @@ class Tree {
     return node;
   }
 
-  insert(data, currentNode = this.root) {
+  insert(key, currentNode = this.root) {
     if (currentNode === null) {
-        currentNode = new Node(data);
-        return currentNode;
+      currentNode = new Node(key);
+      return currentNode;
     }
 
-    if (data < currentNode.data) {
-        currentNode.left = this.insert(data, currentNode.left);
+    if (key < currentNode.data) {
+      currentNode.left = this.insert(key, currentNode.left);
     }
-    if (data > currentNode.data) {
-        currentNode.right = this.insert(data, currentNode.right);
+    if (key > currentNode.data) {
+      currentNode.right = this.insert(key, currentNode.right);
     }
     return currentNode;
   }
 
+  delete(key, currentNode = this.root) {
+    if (currentNode === null) {
+      // If the tree is empty return
+      return currentNode;
+    }
+
+    // Search for the node to delete calling the method recursively in the correct subtree
+    if (key < currentNode.data) {
+      currentNode.left = this.delete(key, currentNode.left);
+    } else if (key > currentNode.data) {
+      currentNode.right = this.delete(key, currentNode.right);
+    } else {
+
+    // If the node is found
+    // Case 1: leaf node
+    if (currentNode.left === null && currentNode.right === null) {
+      return null;
+    }
+
+    // Case 2: the node has one child
+    if (currentNode.left === null) return currentNode.right;
+    if (currentNode.right === null) return currentNode.left;
+
+    // Case 3: the node has two children
+    // Find the in-order successor (the smallest node in the right subtree).
+      let successor = this.findMinNode(currentNode.right);
+      currentNode.data = successor.data;
+      currentNode.right = this.delete(successor.data, currentNode.right);
+      return currentNode;
+    }
+    return currentNode;
+  }
+
+  findMinNode(node) {
+    while (node.left !== null) {
+      node = node.left;
+    }
+    return node;
+  }
 
   prettyPrint(node, prefix = "", isLeft = true) {
     if (node === null) {
       return;
     }
     if (node.right !== null) {
-      this.prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+      this.prettyPrint(
+        node.right,
+        `${prefix}${isLeft ? "│   " : "    "}`,
+        false
+      );
     }
     console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
     if (node.left !== null) {
