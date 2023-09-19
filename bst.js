@@ -53,19 +53,18 @@ class Tree {
     } else if (key > currentNode.data) {
       currentNode.right = this.delete(key, currentNode.right);
     } else {
+      // If the node is found
+      // Case 1: leaf node
+      if (currentNode.left === null && currentNode.right === null) {
+        return null;
+      }
 
-    // If the node is found
-    // Case 1: leaf node
-    if (currentNode.left === null && currentNode.right === null) {
-      return null;
-    }
+      // Case 2: the node has one child
+      if (currentNode.left === null) return currentNode.right;
+      if (currentNode.right === null) return currentNode.left;
 
-    // Case 2: the node has one child
-    if (currentNode.left === null) return currentNode.right;
-    if (currentNode.right === null) return currentNode.left;
-
-    // Case 3: the node has two children
-    // Find the in-order successor (the smallest node in the right subtree).
+      // Case 3: the node has two children
+      // Find the in-order successor (the smallest node in the right subtree).
       let successor = this.findMinNode(currentNode.right);
       currentNode.data = successor.data;
       currentNode.right = this.delete(successor.data, currentNode.right);
@@ -79,6 +78,18 @@ class Tree {
       node = node.left;
     }
     return node;
+  }
+
+  find(key, currentNode = this.root) {
+    if (currentNode === null || key === currentNode.data) {
+      return currentNode;
+    }
+  
+    if (key < currentNode.data) {
+      return this.find(key, currentNode.left);
+    } else {
+      return this.find(key, currentNode.right);
+    }
   }
 
   prettyPrint(node, prefix = "", isLeft = true) {
