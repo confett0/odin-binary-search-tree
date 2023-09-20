@@ -92,6 +92,33 @@ class Tree {
     }
   }
 
+  levelOrder(callback = null, head = this.root) {
+    if (!head) {
+      return [];
+    }
+
+    const queue = [head];
+    const result = [];
+
+    while (queue.length !== 0) {
+      let currentNode = queue.shift();
+      if (callback) {
+        callback(currentNode.data);
+      } else {
+      result.push(currentNode.data);
+    }
+      if (currentNode.left) {
+        queue.push(currentNode.left);
+      }
+      if (currentNode.right) {
+        queue.push(currentNode.right);
+      }
+    }
+    if (callback) return;
+
+    return result;
+  }
+
   prettyPrint(node, prefix = "", isLeft = true) {
     if (node === null) {
       return;
