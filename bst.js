@@ -119,6 +119,57 @@ class Tree {
     return result;
   }
 
+  preOrder(currentNode = this.root, callback = null) {
+    const result = [];
+    if (currentNode === null) return;
+
+    if (callback) {
+      callback(currentNode.data);
+    } else {
+    result.push(currentNode.data);
+    }
+    this.preOrder(currentNode.left);
+    this.preOrder(currentNode.right);
+
+    if (callback) return;
+
+    return result;
+  }
+
+  inOrder(currentNode = this.root, callback = null) {
+    const result = [];
+    if (currentNode === null) return;
+
+    this.inOrder(currentNode.left);
+    if (callback) {
+      callback(currentNode.data);
+    } else {
+    result.push(currentNode.data);
+    }
+    this.inOrder(currentNode.right);
+
+    if (callback) return;
+
+    return result;
+  }
+
+  postOrder(currentNode = this.root, callback = null) {
+    const result = [];
+    if (currentNode === null) return;
+
+    this.postOrder(currentNode.left);
+    this.postOrder(currentNode.right);
+    if (callback) {
+      callback(currentNode.data);
+    } else {
+    result.push(currentNode.data);
+    }
+
+    if (callback) return;
+
+    return result;
+  }
+
   prettyPrint(node, prefix = "", isLeft = true) {
     if (node === null) {
       return;
