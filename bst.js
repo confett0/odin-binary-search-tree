@@ -132,54 +132,58 @@ class Tree {
   // Perform a pre-order traversal of the tree, optionally applying a callback function.
   preOrder(currentNode = this.root, callback = null) {
     const result = [];
-    if (currentNode === null) return;
+    
+    const traverse = (node) => {
+      if (node === null) return;
 
-    if (callback) {
-      callback(currentNode.data);
-    } else {
-    result.push(currentNode.data);
+      if (callback) {
+        callback(node.data);
+      } else {
+        result.push(node.data);
+      }
+      traverse(node.left);
+      traverse(node.right);
     }
-    this.preOrder(currentNode.left);
-    this.preOrder(currentNode.right);
-
-    if (callback) return;
-
+    traverse(currentNode);
     return result;
   }
 
   // Perform a in-order traversal of the tree, optionally applying a callback function.
   inOrder(currentNode = this.root, callback = null) {
     const result = [];
-    if (currentNode === null) return;
+    
+    const traverse = (node) => {
+      if (node === null) return;
 
-    this.inOrder(currentNode.left);
-    if (callback) {
-      callback(currentNode.data);
-    } else {
-    result.push(currentNode.data);
+      traverse(node.left);
+      if (callback) {
+        callback(node.data);
+      } else {
+        result.push(node.data);
+      }
+      traverse(node.right);
     }
-    this.inOrder(currentNode.right);
-
-    if (callback) return;
-
+    traverse(currentNode);
     return result;
   }
 
   // Perform a post-order traversal of the tree, optionally applying a callback function.
   postOrder(currentNode = this.root, callback = null) {
     const result = [];
-    if (currentNode === null) return;
+    
+    const traverse = (node) => {
+      if (node === null) return;
 
-    this.postOrder(currentNode.left);
-    this.postOrder(currentNode.right);
-    if (callback) {
-      callback(currentNode.data);
-    } else {
-    result.push(currentNode.data);
+      traverse(node.left);
+      traverse(node.right);
+
+      if (callback) {
+        callback(node.data);
+      } else {
+        result.push(node.data);
+      }
     }
-
-    if (callback) return;
-
+    traverse(currentNode);
     return result;
   }
 
@@ -191,7 +195,7 @@ class Tree {
     // Get the max depth of the left and right subtree recursively.
     let leftHeight = this.height(currentNode.left);
     let rightHeight = this.height(currentNode.right);
-    
+
     // Get the max of max depths of left and right subtrees and add 1 to it for the current node.
     return Math.max(leftHeight,rightHeight) + 1;
   }
