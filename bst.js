@@ -8,10 +8,12 @@ class Node {
 
 class Tree {
   constructor(array) {
+    // Remove duplicates, sort the array, and build the binary search tree.
     const sortedArray = [...new Set(array)].sort((a, b) => a - b);
     this.root = this.buildTree(sortedArray);
   }
 
+  // Build a balanced binary search tree from a sorted array.
   buildTree(arr, start = 0, end = arr.length - 1) {
     if (start > end) {
       return null;
@@ -20,27 +22,32 @@ class Tree {
     const middle = Math.floor((start + end) / 2);
     const node = new Node(arr[middle]);
 
+    // Recursively build left and right subtrees.
     node.left = this.buildTree(arr, start, middle - 1);
     node.right = this.buildTree(arr, middle + 1, end);
 
     return node;
   }
 
+  // Insert a new node with the given key into the tree.
   insert(key, currentNode = this.root) {
-    if (currentNode === null) {
+    if (currentNode === null) { // If the current node is null, create a new node.
       currentNode = new Node(key);
       return currentNode;
     }
 
     if (key < currentNode.data) {
+      // Insert into the left subtree recursively.
       currentNode.left = this.insert(key, currentNode.left);
     }
     if (key > currentNode.data) {
+      // Insert into the right subtree recursively.
       currentNode.right = this.insert(key, currentNode.right);
     }
     return currentNode;
   }
 
+  // Delete a node with the given key from the tree.
   delete(key, currentNode = this.root) {
     if (currentNode === null) {
       // If the tree is empty return
@@ -73,6 +80,7 @@ class Tree {
     return currentNode;
   }
 
+  // Find the node with the minimum value in the subtree.
   findMinNode(node) {
     while (node.left !== null) {
       node = node.left;
@@ -80,6 +88,7 @@ class Tree {
     return node;
   }
 
+  // Find a node with the given key in the tree.
   find(key, currentNode = this.root) {
     if (currentNode === null || key === currentNode.data) {
       return currentNode;
@@ -92,6 +101,7 @@ class Tree {
     }
   }
 
+  // Perform a level-order traversal of the tree, optionally applying a callback function.
   levelOrder(callback = null, head = this.root) {
     if (!head) {
       return [];
@@ -119,6 +129,7 @@ class Tree {
     return result;
   }
 
+  // Perform a pre-order traversal of the tree, optionally applying a callback function.
   preOrder(currentNode = this.root, callback = null) {
     const result = [];
     if (currentNode === null) return;
@@ -136,6 +147,7 @@ class Tree {
     return result;
   }
 
+  // Perform a in-order traversal of the tree, optionally applying a callback function.
   inOrder(currentNode = this.root, callback = null) {
     const result = [];
     if (currentNode === null) return;
@@ -153,6 +165,7 @@ class Tree {
     return result;
   }
 
+  // Perform a post-order traversal of the tree, optionally applying a callback function.
   postOrder(currentNode = this.root, callback = null) {
     const result = [];
     if (currentNode === null) return;
@@ -170,6 +183,7 @@ class Tree {
     return result;
   }
 
+  // Log the tree to the console.
   prettyPrint(node, prefix = "", isLeft = true) {
     if (node === null) {
       return;
