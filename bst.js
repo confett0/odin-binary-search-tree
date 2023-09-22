@@ -183,6 +183,19 @@ class Tree {
     return result;
   }
 
+  // Return the height of the tree.
+  height(currentNode = this.root) {
+    // If the tree is empty return 0;
+    if (currentNode === null) return 0;
+
+    // Get the max depth of the left and right subtree recursively.
+    let leftHeight = this.height(currentNode.left);
+    let rightHeight = this.height(currentNode.right);
+    
+    // Get the max of max depths of left and right subtrees and add 1 to it for the current node.
+    return Math.max(leftHeight,rightHeight) + 1;
+  }
+
   // Log the tree to the console.
   prettyPrint(node, prefix = "", isLeft = true) {
     if (node === null) {
