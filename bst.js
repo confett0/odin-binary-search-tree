@@ -31,7 +31,8 @@ class Tree {
 
   // Insert a new node with the given key into the tree.
   insert(key, currentNode = this.root) {
-    if (currentNode === null) { // If the current node is null, create a new node.
+    if (currentNode === null) {
+      // If the current node is null, create a new node.
       currentNode = new Node(key);
       return currentNode;
     }
@@ -93,7 +94,7 @@ class Tree {
     if (currentNode === null || key === currentNode.data) {
       return currentNode;
     }
-  
+
     if (key < currentNode.data) {
       return this.find(key, currentNode.left);
     } else {
@@ -115,8 +116,8 @@ class Tree {
       if (callback) {
         callback(currentNode.data);
       } else {
-      result.push(currentNode.data);
-    }
+        result.push(currentNode.data);
+      }
       if (currentNode.left) {
         queue.push(currentNode.left);
       }
@@ -132,7 +133,7 @@ class Tree {
   // Perform a pre-order traversal of the tree, optionally applying a callback function.
   preOrder(currentNode = this.root, callback = null) {
     const result = [];
-    
+
     const traverse = (node) => {
       if (node === null) return;
 
@@ -143,7 +144,7 @@ class Tree {
       }
       traverse(node.left);
       traverse(node.right);
-    }
+    };
     traverse(currentNode);
     return result;
   }
@@ -151,7 +152,7 @@ class Tree {
   // Perform a in-order traversal of the tree, optionally applying a callback function.
   inOrder(currentNode = this.root, callback = null) {
     const result = [];
-    
+
     const traverse = (node) => {
       if (node === null) return;
 
@@ -162,7 +163,7 @@ class Tree {
         result.push(node.data);
       }
       traverse(node.right);
-    }
+    };
     traverse(currentNode);
     return result;
   }
@@ -170,7 +171,7 @@ class Tree {
   // Perform a post-order traversal of the tree, optionally applying a callback function.
   postOrder(currentNode = this.root, callback = null) {
     const result = [];
-    
+
     const traverse = (node) => {
       if (node === null) return;
 
@@ -182,7 +183,7 @@ class Tree {
       } else {
         result.push(node.data);
       }
-    }
+    };
     traverse(currentNode);
     return result;
   }
@@ -197,7 +198,7 @@ class Tree {
     let rightHeight = this.height(currentNode.right);
 
     // Get the max of max depths of left and right subtrees and add 1 to it for the current node.
-    return Math.max(leftHeight,rightHeight) + 1;
+    return Math.max(leftHeight, rightHeight) + 1;
   }
 
   // Return the width of the tree.
@@ -210,9 +211,11 @@ class Tree {
       if (node === null) return 0;
       if (level === 1) return 1;
       if (level > 1) {
-        return levelWidth(node.left, level - 1) + levelWidth(node.right, level - 1);
+        return (
+          levelWidth(node.left, level - 1) + levelWidth(node.right, level - 1)
+        );
       }
-    }
+    };
 
     for (let i = 0; i <= h; i++) {
       const width = levelWidth(currentNode, i);
@@ -221,6 +224,31 @@ class Tree {
       }
     }
     return maxWidth;
+  }
+
+  // Checks if the tree is balanced.
+  isBalanced(currentNode = this.root) {
+    if (currentNode === null) return true; // An empty tree is balanced.
+
+    const leftHeight = this.height(currentNode.left);
+    const rightHeight = this.height(currentNode.right);
+
+    // Check if the current node is balanced and both subtrees are balanced
+    if (
+      Math.abs(leftHeight - rightHeight) <= 1 &&
+      this.isBalanced(currentNode.left) &&
+      this.isBalanced(currentNode.right)
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // Rebalance an unbalanced tree 
+  rebalance(currentNode = this.root) {
+    const arr = this.inOrder(currentNode);
+    this.buildTree(arr);
   }
 
   // Log the tree to the console.
