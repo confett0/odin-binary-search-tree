@@ -200,6 +200,29 @@ class Tree {
     return Math.max(leftHeight,rightHeight) + 1;
   }
 
+  // Return the width of the tree.
+  width(currentNode = this.root) {
+    let maxWidth = 0;
+    const h = this.height(currentNode);
+
+    // Get width of a given level
+    const levelWidth = (node, level) => {
+      if (node === null) return 0;
+      if (level === 1) return 1;
+      if (level > 1) {
+        return levelWidth(node.left, level - 1) + levelWidth(node.right, level - 1);
+      }
+    }
+
+    for (let i = 0; i <= h; i++) {
+      const width = levelWidth(currentNode, i);
+      if (width > maxWidth) {
+        maxWidth = width;
+      }
+    }
+    return maxWidth;
+  }
+
   // Log the tree to the console.
   prettyPrint(node, prefix = "", isLeft = true) {
     if (node === null) {
