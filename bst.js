@@ -247,12 +247,14 @@ class Tree {
 
   // Rebalance an unbalanced tree 
   rebalance(currentNode = this.root) {
+    // Use the inorder traversal method to provide a new array to the buildTree function
     const arr = this.inOrder(currentNode);
-    this.buildTree(arr);
+    // Rebuild the tree and update the root reference
+    this.root = this.buildTree(arr);
   }
 
   // Log the tree to the console.
-  prettyPrint(node, prefix = "", isLeft = true) {
+  prettyPrint(node = this.root, prefix = "", isLeft = true) {
     if (node === null) {
       return;
     }
