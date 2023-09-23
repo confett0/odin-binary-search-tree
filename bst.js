@@ -272,5 +272,33 @@ class Tree {
   }
 }
 
-const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-tree.prettyPrint(tree.root);
+// Driver script
+
+// Helper functions
+const createRandomArray = () => {
+  return Array.from({length: 10}, () => Math.floor(Math.random() * 100));
+}
+
+const addNumbers = () => {
+  const arr = createRandomArray();
+  arr.map(el => tree.insert(el));
+}
+
+const tree = new Tree(createRandomArray());
+tree.prettyPrint();
+console.log(`Is balanced? ${tree.isBalanced()}`);
+console.log(`Level order traversal: ${tree.levelOrder()}`);
+console.log(`Pre order traversal: ${tree.preOrder()}`);
+console.log(`Post order traversal: ${tree.postOrder()}`);
+console.log(`In order traversal: ${tree.inOrder()}`);
+addNumbers();
+tree.prettyPrint();
+console.log(`Is balanced? ${tree.isBalanced()}`);
+tree.rebalance();
+tree.prettyPrint();
+console.log(`Is balanced? ${tree.isBalanced()}`);
+console.log(`Level order traversal: ${tree.levelOrder()}`);
+console.log(`Pre order traversal: ${tree.preOrder()}`);
+console.log(`Post order traversal: ${tree.postOrder()}`);
+console.log(`In order traversal: ${tree.inOrder()}`);
+
