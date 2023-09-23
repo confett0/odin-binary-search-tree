@@ -292,6 +292,7 @@ console.log(`Pre order traversal: ${tree.preOrder()}`);
 console.log(`Post order traversal: ${tree.postOrder()}`);
 console.log(`In order traversal: ${tree.inOrder()}`);
 addNumbers();
+console.log(`Added 10 numbers to the tree.`)
 tree.prettyPrint();
 console.log(`Is balanced? ${tree.isBalanced()}`);
 tree.rebalance();
